@@ -33,6 +33,6 @@ $ docker build -t twamp --file ./Dockerfile
 ###  Network Topology Emulation
 
 After the containerization process we can emulate with **ComNetsEmu** a network topology to run the twamp protocol  
-The emulated topology is the following:
+For now the emulated topology is very simple with the purpose to check if everything works as it should.
 
 ![image](/img/topology.PNG)
