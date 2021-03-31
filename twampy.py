@@ -541,7 +541,7 @@ def twl_responder(args):
 
     signal.signal(signal.SIGINT, reflector.stop)
 
-    while reflector.isAlive():
+    while reflector.is_alive():
         time.sleep(0.1)
 
 
@@ -553,7 +553,7 @@ def twl_sender(args):
 
     signal.signal(signal.SIGINT, sender.stop)
 
-    while sender.isAlive():
+    while sender.is_alive():
         time.sleep(0.1)
 
 
