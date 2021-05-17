@@ -123,14 +123,14 @@ def zeros(nbr):
 
 def dp(ms):
     if abs(ms) > 60000:
-        return "%7.1fmin" % float(ms / 60000)
+        return "%.2fmin" % float(ms / 60000)
     if abs(ms) > 10000:
-        return "%7.1fsec" % float(ms / 1000)
+        return "%.2fsec" % float(ms / 1000)
     if abs(ms) > 1000:
-        return "%7.2fsec" % float(ms / 1000)
+        return "%.2fsec" % float(ms / 1000)
     if abs(ms) > 1:
-        return "%8.2fms" % ms
-    return "%8dus" % long(ms * 1000)
+        return "%.2fms" % ms
+    return "%dus" % long(ms * 1000)
 
 
 def parse_addr(addr, default_port=20000):
@@ -282,6 +282,18 @@ class twampStatistics():
         self.count += 1
 
     def dump(self, total):
+
+        print("Direction,Min,Max,Avg,Jitter,Loss")
+        if self.count > 0:
+            self.lossRT = total - self.count
+            print("Outbound,"+dp(self.minOB)+","+ dp(self.maxOB)+","+ dp(self.sumOB / self.count)+","+ dp(self.jitterOB)+","+ str(100 * float(self.lossOB) / total)+"%")
+            print("Inbound,"+dp(self.minIB)+","+ dp(self.maxIB)+","+ dp(self.sumIB / self.count)+","+ dp(self.jitterIB)+","+ str(100 * float(self.lossIB) / total)+"%")
+            print("Roundtrip,"+dp(self.minRT)+","+ dp(self.maxRT)+","+ dp(self.sumRT / self.count)+","+ dp(self.jitterRT)+","+ str(100 * float(self.lossRT) / total)+"%")
+        else:
+            print("  NO STATS AVAILABLE (100% loss)")
+        sys.stdout.flush()
+
+        '''
         print("===============================================================================")
         print("Direction         Min         Max         Avg          Jitter     Loss")
         print("-------------------------------------------------------------------------------")
@@ -296,7 +308,7 @@ class twampStatistics():
         print("                                                    Jitter Algorithm [RFC1889]")
         print("===============================================================================")
         sys.stdout.flush()
-
+        '''
 #############################################################################
 
 

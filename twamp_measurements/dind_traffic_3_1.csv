@@ -1,0 +1,4 @@
+Direction,Min,Max,Avg,Jitter,Loss
+Outbound,33.74ms,54.82ms,38.22,2.83ms,0.0%
+Inbound,33.68ms,57.92ms,38.53,3.65ms,0.0%
+Roundtrip,68.03ms,112.51ms,76.75,5.90ms,0.0%

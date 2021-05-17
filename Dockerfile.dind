@@ -1,7 +1,11 @@
 FROM docker:stable-dind
 
 RUN apk add python3
+RUN apk add sed
+RUN apk add coreutils
 RUN apk add build-base
+RUN apk add alpine-sdk
+RUN apk add autoconf
 RUN apk add bash bash-completion
 RUN apk add iproute2 busybox-extras iperf3
 
@@ -9,9 +13,13 @@ RUN apk add stress-ng curl tcpdump netcat-openbsd
 RUN apk update && apk upgrade
 
 COPY ./twampy.py /home/twampy.py
+COPY ./pathload_rcv.sh /home/pathload_rcv.sh
 
-ENV HOME /root
-WORKDIR /root
+COPY ./pathload_classic /home/pathload_classic
+RUN cd /home/pathload_classic && ./configure && make
+
+ENV HOME /home
+WORKDIR /home
 
 # Define default command.
 CMD ["bash"]
