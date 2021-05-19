@@ -23,7 +23,7 @@
 	$ sudo python3 ./measure.py -snd 10.0.0.1 -rcv 10.0.0.2 -topo tree
 	```
 4. When prompted, enter the number of hosts to create on the network. If Tree topology is selected, instead of the number of hosts, the script requires the depth and the fanout of the tree.
-5. When the measurements are finished the results can be viewed by opening *results.html* or *results.pdf* 
+5. When the measurements are finished the results can be viewed by opening *results.html* or the specified plot *pathload_results.svg* and *twamp_results.svg* 
 ## How it was built
 
 ### Main Function
