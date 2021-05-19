@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 import pandas as pd
 import math
-import csv
 
 def truncate(number, decimals=0):
     """
@@ -104,8 +103,8 @@ def plot_results():
 
 
     twr0 = [float(i.replace("ms","")) for i in twr0]
-    twr1 = [float(i) for i in twr1]
-    twr2 = [float(i) for i in twr2]
+    twr1 = [float(i.replace("ms","")) for i in twr1]
+    twr2 = [float(i.replace("ms","")) for i in twr2]
     print(twr0)
 
     twavg= []
@@ -119,9 +118,9 @@ def plot_results():
     print(twavg)
 
     fig2=go.Figure()
-    fig2.add_trace(go.Bar(x=tw0['Direction'], y=twr0['Avg'], name='first run', marker_color='#7180AC'))  
-    fig2.add_trace(go.Bar(x=tw1['Direction'], y=twr1['Avg'], name='second run', marker_color='#3b508f'))   
-    fig2.add_trace(go.Bar(x=tw2['Direction'], y=twr2['Avg'], name='third run', marker_color='#162963'))
+    fig2.add_trace(go.Bar(x=tw0['Direction'], y=twr0, name='first run', marker_color='#7180AC'))  
+    fig2.add_trace(go.Bar(x=tw1['Direction'], y=twr1, name='second run', marker_color='#3b508f'))   
+    fig2.add_trace(go.Bar(x=tw2['Direction'], y=twr2, name='third run', marker_color='#162963'))
     fig2.add_trace(go.Bar(x=tw0['Direction'], y=twavg, name='avg', marker_color='#C84C09'))
     fig2.update_layout(barmode='group', yaxis=dict(rangemode="tozero"), xaxis=dict(rangemode="tozero"), bargroupgap=0.1)   
 
@@ -131,7 +130,8 @@ def plot_results():
             f.write(fig1.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig2.to_html(full_html=False, include_plotlyjs='cdn'))
     f.close()
+    
+    fig1.write_image("pathload_results.svg")
+    fig2.write_image("twamp_results.svg")
 
     ##########################################################################
-
-plot_results()

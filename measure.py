@@ -7,6 +7,7 @@ import argparse
 from plot import *
 
 
+
 from comnetsemu.cli import CLI, spawnXtermDocker
 from comnetsemu.net import Containernet, VNFManager
 from mininet.link import TCLink
@@ -32,7 +33,7 @@ def customTopoChain(num): # fixed number of switches, related to number of hosts
     for i in range(num):
         host = net.addDockerHost(
             "h%s" % (i + 1),
-            dimage="twamp",
+            dimage="measure",
             ip="10.0.0.%s" % (i + 1),
             docker_args={"hostname": "h%s" % (i + 1)},
         )
@@ -75,7 +76,7 @@ def addTree(depth, fanout, hostNum, switchNum):
             net.addLink( node, child,  bw=10, delay='10ms' )
     else:
         node = net.addDockerHost( 'h%s' % hostNum,
-                                    dimage="twamp",
+                                    dimage="measure",
                                     ip="10.0.0.%s" % hostNum,
                                     docker_args={"hostname": "h%s" % hostNum})
         hostNum += 1
@@ -94,7 +95,7 @@ def customTopoDumbbell(num):  # fixed number of switches (2)
     for i in range(num):
         host = net.addDockerHost(
             "h%s" % (i + 1),
-            dimage="twamp",
+            dimage="measure",
             ip="10.0.0.%s" % (i + 1),
             docker_args={"hostname": "h%s" % (i + 1)},
         )
@@ -117,8 +118,8 @@ parser = argparse.ArgumentParser(
     prog='measure.py',
     formatter_class=argparse.RawDescriptionHelpFormatter)
 # Adding arguments
-parser.add_argument("-snd", help = "Set sender address and port", required=True)
-parser.add_argument("-rcv", help = "Set receiver address and port", required=True)
+parser.add_argument("-snd", help = "Set sender address", required=True)
+parser.add_argument("-rcv", help = "Set receiver address", required=True)
 parser.add_argument("-topo", help = "Select topology from proposed ones: [tree][chain][dumbbell]", required=True)
 # Read arguments from command line
 args = parser.parse_args()
@@ -156,11 +157,11 @@ def runPathload(snd,rcv):
 
     for i in range(3):
         info("*** Starting pathload sender at "+ snd +"...\n")
-        srv_snd = mgr.addContainer("srv_snd", "h"+ snd[-1], "twamp", "./pathload_classic/pathload_snd &", docker_args={})
+        srv_snd = mgr.addContainer("srv_snd", "h"+ snd[-1], "measure", "./pathload_classic/pathload_snd &", docker_args={})
         time.sleep(5)
         info("*** starting pathload receiver at "+ rcv +"...\n")
 
-        srv_rcv = mgr.addContainer("srv_rcv", "h"+ rcv[-1], "twamp", "bash ./pathload_rcv.sh "+ snd, docker_args={}) 
+        srv_rcv = mgr.addContainer("srv_rcv", "h"+ rcv[-1], "measure", "bash ./pathload_rcv.sh "+ snd, docker_args={}) 
         time.sleep(300)
 
         info("*** creating csv file...\n")
@@ -178,11 +179,11 @@ def runTwamp(snd,rcv):
     
     for i in range(3):
         info("*** Starting twamp receiver at "+ rcv+ "...\n")
-        srv_rcv = mgr.addContainer("srv_rcv", "h"+ rcv[-1], "twamp", "python3 ./twampy.py responder "+ rcv +":861", docker_args={})
+        srv_rcv = mgr.addContainer("srv_rcv", "h"+ rcv[-1], "measure", "python3 ./twampy.py responder "+ rcv +":861", docker_args={})
         time.sleep(1)
         
         info("*** starting twamp sender at "+ snd +"...\n")
-        srv_snd = mgr.addContainer("srv_snd", "h"+ snd[-1], "twamp", "python3 ./twampy.py sender "+ rcv +":861", docker_args={})
+        srv_snd = mgr.addContainer("srv_snd", "h"+ snd[-1], "measure", "python3 ./twampy.py sender "+ rcv +":861", docker_args={})
         time.sleep(30)
         
         info("*** creating csv file...\n")
