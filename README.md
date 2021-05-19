@@ -2,7 +2,7 @@
 
 ## How to use
 
-1. Move inside the *net_measures* directory located in the *examples* folder
+1. Move inside the *net_measures* directory located in the *examples* folder (not yet available inside the last version of ComNetsEmu)
 2. Run the shell script called *build_image.sh* to build the Docker image
 
 	```
