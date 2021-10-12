@@ -2,7 +2,7 @@
 
 ## How to use
 
-1. Move inside the *net_measures* directory located in the *examples* folder (not yet available inside the last version of ComNetsEmu)
+1. Move inside the *net_measures* directory located in the *examples* folder (not yet available inside the last version of ComNetsEmu, clone the repo inside the emulator)
 2. Run the shell script called *build_image.sh* to build the Docker image
 
 	```
@@ -26,12 +26,13 @@
 5. When the measurements are finished the results can be viewed by opening *results.html* or the specified plot *pathload_results.svg* and *twamp_results.svg* 
 ## How it was built
 
-### Main Function
+### Main Functions
 
-- The Round-trip time as well as One-way delay is measured using a Python implementation of the **Two-Way Active Measurement Protocol (TWAMP)** as defined in [RFC5357](https://tools.ietf.org/html/rfc5357).The official implementation of the twamp protocol used can be found here: https://github.com/nokia/twampy.
+- The Round-trip time as well as One-way delay is measured using a Python implementation of the **Two-Way Active Measurement Protocol (TWAMP)** as defined in [RFC5357](https://tools.ietf.org/html/rfc5357).The official implementation of the twamp protocol used can be found [here](https://github.com/nokia/twampy). 
 
-- The Available bandwidth is estimated with **Pathload**. The implementation of Pathload used can be found here: https://www.cc.gatech.edu/~dovrolis/bw-est/pathload.html
+- The Available bandwidth is estimated with **Pathload**. The implementation of Pathload used can be found [here](https://www.cc.gatech.edu/~dovrolis/bw-est/pathload.html). 
 
+- To emulate different scenarios where the network measurement tools could be tested to assess their accuracy and intrusiveness, cross-traffic was introduced into the network. To accomplish this, a platform capable of generating traffic called **D-ITG** was used. The official implementation of the tool can be found [here](http://traffic.comics.unina.it/software/ITG/).  To manually test the performances of the tools in the docker-in-docker scenario and directly on the Docker host, the *traffic.py* script was added. 
 
 ### Containerization 
 
